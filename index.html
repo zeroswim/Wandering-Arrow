@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0" />
+<title>Digital Archery</title>
+
+<link href="https://fonts.googleapis.com/css?family=Fjalla+One" rel="stylesheet" />
+<link rel="stylesheet" href="style.css"> 
+<link rel="stylesheet" href="https://eyegestures.com/eyegestures.css" />
+
+<script src="https://www.lactame.com/lib/ml/6.0.0/ml.min.js"></script>
+<script src="eyegestures-local.js"></script>
+<script src="https://unpkg.com/heatmap.js@2.0.5/build/heatmap.min.js"></script>
+
+<style>
+  /* 기본 스타일 초기화 */
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* 인트로 페이지 스타일 */
+  #intro-page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10000;
+    cursor: pointer;
+    display: block;
+  }
+
+  /* 스킵 버튼 스타일 */
+  #skip-intro-button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    padding: 10px 20px;
+    background-color: #2138FF;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10001;
+  }
+
+  #skip-intro-button:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #2138FF;
+  }
+
+  /* 나머지 요소들 */
+  .trigger-img {
+    display: none;
+    position: absolute;
+  }
+</style>
+
+</head>
+<body>
+
+  <div id="intro-page">
+    <button id="skip-intro-button">SKIP</button>
+  </div>
+
+  <div id="final-background"></div>
+  <div id="background-container"></div>
+  <div id="heatmap-container"></div>
+
+  <video id="video" width="640" height="480" autoplay muted></video>
+  <div id="status">Initializing...</div>
+  <div id="error"></div>
+
+  <div id="gaze-tracker">
+    <img src="img/cursor.png" alt="cursor" />
+  </div>
+
+  <img id="trigger-img-1" src="img/1.png" class="trigger-img">
+  <img id="trigger-img-2" src="img/2.png" class="trigger-img">
+  <img id="trigger-img-3" src="img/3.png" class="trigger-img">
+  <img id="trigger-img-4" src="img/4.png" class="trigger-img">
+  <img id="trigger-img-5" src="img/5.png" class="trigger-img">
+  <img id="trigger-img-6" src="img/6.png" class="trigger-img">
+  <img id="trigger-img-7" src="img/7.png" class="trigger-img">
+  <img id="trigger-img-8" src="img/8.png" class="trigger-img">
+  <img id="trigger-img-9" src="img/9.png" class="trigger-img">
+  <img id="trigger-img-10" src="img/10.png" class="trigger-img">
+  <img id="trigger-img-11" src="img/11.png" class="trigger-img">
+  <img id="trigger-img-12" src="img/12.png" class="trigger-img">
+  <img id="trigger-img-13" src="img/13.png" class="trigger-img">
+  <img id="trigger-img-14" src="img/14.png" class="trigger-img">
+  <img id="trigger-img-15" src="img/15.png" class="trigger-img">
+  <img id="trigger-img-16" src="img/16.png" class="trigger-img">
+  <img id="trigger-img-17" src="img/17.png" class="trigger-img">
+  <img id="trigger-img-18" src="img/18.png" class="trigger-img">
+  <img id="trigger-img-19" src="img/19.png" class="trigger-img">
+  <img id="trigger-img-20" src="img/20.png" class="trigger-img">
+  <img id="trigger-img-21" src="img/21.png" class="trigger-img">
+  <img id="trigger-img-22" src="img/22.png" class="trigger-img">
+  <img id="trigger-img-23" src="img/23.png" class="trigger-img">
+  <img id="trigger-img-24" src="img/24.png" class="trigger-img">
+  <img id="trigger-img-25" src="img/25.png" class="trigger-img">
+  <img id="trigger-img-26" src="img/26.png" class="trigger-img">
+  <img id="trigger-img-27" src="img/27.png" class="trigger-img">
+  <img id="trigger-img-28" src="img/28.png" class="trigger-img">
+  <img id="trigger-img-29" src="img/29.png" class="trigger-img">
+  <img id="trigger-img-30" src="img/30.png" class="trigger-img">
+  <img id="trigger-img-31" src="img/31.png" class="trigger-img">
+  <img id="trigger-img-32" src="img/32.png" class="trigger-img">
+  <img id="trigger-img-33" src="img/33.png" class="trigger-img">
+  <img id="trigger-img-34" src="img/34.png" class="trigger-img">
+  <img id="trigger-img-35" src="img/35.png" class="trigger-img">
+  <img id="trigger-img-36" src="img/36.png" class="trigger-img">
+  <img id="trigger-img-37" src="img/37.png" class="trigger-img">
+  <img id="trigger-img-38" src="img/38.png" class="trigger-img">
+  <img id="trigger-img-39" src="img/39.png" class="trigger-img">
+  <img id="trigger-img-40" src="img/40.png" class="trigger-img">
+  <img id="trigger-img-41" src="img/41.png" class="trigger-img">
+  <img id="trigger-img-42" src="img/42.png" class="trigger-img">
+
+  <div id="calibrationOverlay">
+    <h3>Digital Archery Calibration</h3>
+    <p><span style="color: #00ffcc;">42 floating arrows</span> and <span style="color: #ffdd00;">ghost circle</span></p>
+    <div id="countdown"></div>
+  </div>
+
+  <div id="calib_cursor">
+    <span id="calib_text"></span>
+  </div>
+
+  <script>
+    // 3. 메인 스크립트
+    const heatmapContainer = document.getElementById("heatmap-container");
+    const heatmap = h337.create({ container: heatmapContainer, radius: 50, maxOpacity: 0.6, blur: 0.85 });
+    
+    function resizeHeatmap() {
+      const width = document.documentElement.scrollWidth;
+      const height = document.documentElement.scrollHeight;
+      
+      heatmapContainer.style.width = width + "px";
+      heatmapContainer.style.height = height + "px";
+      heatmap._renderer.setDimensions(width, height);
+      
+      const canvas = heatmap._renderer.canvas;
+      canvas.style.width = width + "px";
+      canvas.style.height = height + "px";
+    }
+    
+    resizeHeatmap();
+    window.addEventListener("resize", resizeHeatmap);
+
+    const heatmapData = { max: 100, data: [] };
+    function updateHeatmap(x, y) {
+      const relX = Math.round(x + window.scrollX);
+      const relY = Math.round(y + window.scrollY);
+      heatmapData.data.unshift({ x: relX, y: relY, value: 30 });
+      if (heatmapData.data.length > 100) heatmapData.data.pop();
+      heatmap.setData(heatmapData);
+    }
+    const tracker = document.getElementById("gaze-tracker");
+    const dwellStates = {};
+  
+    const primaryDwellBoxes = [
+      { id: '1', x: 4, y: 0, width: 398, height: 581, imageId: 'trigger-img-1', shown: false },
+      { id: '2', x: 387, y: 0, width: 403, height: 472, imageId: 'trigger-img-2', shown: false },
+      { id: '3', x: 759, y: 0, width: 646, height: 499, imageId: 'trigger-img-3', shown: false },
+      { id: '4', x: 1400, y: 0, width: 488, height: 551, imageId: 'trigger-img-4', shown: false },
+      { id: '5', x: 1816, y: 1, width: 755, height: 499, imageId: 'trigger-img-5', shown: false },
+      { id: '6', x: 2516, y: 0, width: 488, height: 551, imageId: 'trigger-img-6', shown: false },
+      { id: '7', x: 4, y: 574, width: 398, height: 551, imageId: 'trigger-img-7', shown: false },
+      { id: '8', x: 342, y: 394, width: 363, height: 550, imageId: 'trigger-img-8', shown: false },
+      { id: '9', x: 574, y: 322, width: 520, height: 585, imageId: 'trigger-img-9', shown: false },
+      { id: '10', x: 1091, y: 424, width: 488, height: 435, imageId: 'trigger-img-10', shown: false },
+      { id: '11', x: 1542, y: 390, width: 755, height: 499, imageId: 'trigger-img-11', shown: false },
+      { id: '12', x: 2237, y: 339, width: 401, height: 681, imageId: 'trigger-img-12', shown: false },
+      { id: '13', x: 2603, y: 494, width: 401, height: 681, imageId: 'trigger-img-13', shown: false },
+      { id: '14', x: 3, y: 1061, width: 371, height: 730, imageId: 'trigger-img-14', shown: false },
+      { id: '15', x: 262, y: 1390, width: 521, height: 564, imageId: 'trigger-img-15', shown: false },
+      { id: '16', x: 695, y: 1258, width: 432, height: 551, imageId: 'trigger-img-16', shown: false },
+      { id: '17', x: 790, y: 702, width: 526, height: 603, imageId: 'trigger-img-17', shown: false },
+      { id: '18', x: 1302, y: 762, width: 488, height: 435, imageId: 'trigger-img-18', shown: false },
+      { id: '19', x: 1769, y: 735, width: 488, height: 551, imageId: 'trigger-img-19', shown: false },
+      { id: '20', x: 2215, y: 834, width: 401, height: 681, imageId: 'trigger-img-20', shown: false },
+      { id: '21', x: 2468, y: 1115, width: 546, height: 687, imageId: 'trigger-img-21', shown: false },
+      { id: '22', x: 0, y: 1702, width: 488, height: 551, imageId: 'trigger-img-22', shown: false },
+      { id: '23', x: 435, y: 1792, width: 747, height: 486, imageId: 'trigger-img-23', shown: false },
+      { id: '24', x: 1002, y: 1527, width: 521, height: 840, imageId: 'trigger-img-24', shown: false },
+      { id: '25', x: 1501, y: 1625, width: 747, height: 664, imageId: 'trigger-img-25', shown: false },
+      { id: '26', x: 1960, y: 1226, width: 345, height: 550, imageId: 'trigger-img-26', shown: false },
+      { id: '27', x: 2174, y: 1498, width: 394, height: 622, imageId: 'trigger-img-27', shown: false },
+      { id: '28', x: 2483, y: 1778, width: 521, height: 840, imageId: 'trigger-img-28', shown: false },
+      { id: '29', x: 4, y: 2057, width: 488, height: 551, imageId: 'trigger-img-29', shown: false },
+      { id: '30', x: 340, y: 2132, width: 536, height: 615, imageId: 'trigger-img-30', shown: false },
+      { id: '31', x: 826, y: 2272, width: 532, height: 474, imageId: 'trigger-img-31', shown: false },
+      { id: '32', x: 1301, y: 2191, width: 635, height: 418, imageId: 'trigger-img-32', shown: false },
+      { id: '33', x: 1837, y: 2205, width: 554, height: 551, imageId: 'trigger-img-33', shown: false },
+      { id: '34', x: 2244, y: 2103, width: 488, height: 551, imageId: 'trigger-img-34', shown: false },
+      { id: '35', x: 2189, y: 2582, width: 815, height: 418, imageId: 'trigger-img-35', shown: false },
+      { id: '36', x: 4, y: 2528, width: 677, height: 472, imageId: 'trigger-img-36', shown: false },
+      { id: '37', x: 621, y: 2449, width: 488, height: 551, imageId: 'trigger-img-37', shown: false },
+      { id: '38', x: 1085, y: 2449, width: 488, height: 551, imageId: 'trigger-img-38', shown: false },
+      { id: '39', x: 1558, y: 2606, width: 646, height: 394, imageId: 'trigger-img-39', shown: false },
+      { id: '40', x: 1119, y: 1069, width: 484, height: 550, imageId: 'trigger-img-40', shown: false },
+      { id: '41', x: 1518, y: 1113, width: 521, height: 564, imageId: 'trigger-img-41', shown: false },
+      { id: '42', x: 125, y: 889, width: 747, height: 615, imageId: 'trigger-img-42', shown: false }
+    ];
+
+    let collapseInterval = null;
+    let nextTileToFallIndex = 0;
+    let backgroundTiles = [];
+    let shownImageCount = 0;
+    let fadeOutStarted = false;
+
+    function isInDwellBox(pointX, pointY, box) {
+      return (
+        pointX + window.scrollX >= box.x &&
+        pointX + window.scrollX <= box.x + box.width &&
+        pointY + window.scrollY >= box.y &&
+        pointY + window.scrollY <= box.y + box.height
+      );
+    }
+    
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    let gestures = null;
+
+    async function startCalibration() {
+      const calibrationOverlay = document.getElementById("calibrationOverlay");
+      calibrationOverlay.classList.add('fade-out');
+      calibrationOverlay.addEventListener('transitionend', () => {
+          calibrationOverlay.style.display = "none";
+      }, { once: true });
+      if (!gestures) {
+        gestures = new EyeGestures("video", onPoint);
+      }
+      try {
+        const startResult = gestures.start();
+        if (startResult && typeof startResult.then === 'function') {
+          await startResult;
+        }
+      } catch (error) {
+        console.error("EyeGestures 시작 실패:", error);
+        document.getElementById("error").textContent = "웹캠에 접근할 수 없습니다. 권한을 허용해주세요.";
+        document.getElementById("error").style.display = "block";
+      }
+    }
+
+    function onPoint(point, isCalibrating) {
+      let [x, y] = point;
+      const maxX = document.documentElement.scrollWidth;
+      const maxY = document.documentElement.scrollHeight;
+      x = Math.max(0, Math.min(maxX, x));
+      y = Math.max(0, Math.min(maxY, y));
+      updateHeatmap(x, y);
+      tracker.style.left = `${x}px`;
+      tracker.style.top = `${y}px`;
+      const now = Date.now();
+
+      if (!isCalibrating) {
+        if (!fadeOutStarted) {
+          primaryDwellBoxes.forEach(box => {
+            if (!box.shown && isInDwellBox(x, y, box)) {
+              if (!dwellStates[box.id]) {
+                dwellStates[box.id] = now;
+              }
+              if (now - dwellStates[box.id] > 350) {
+                const imgElement = document.getElementById(box.imageId);
+                if (imgElement) {
+                  imgElement.style.display = "block";
+                  imgElement.style.left = box.x + 'px';
+                  imgElement.style.top = box.y + 'px';
+                  imgElement.style.width = box.width + 'px';
+                  imgElement.style.height = box.height + 'px';
+                  box.shown = true;
+                  shownImageCount++;
+                  if (collapseInterval) clearInterval(collapseInterval);
+                  const baseDelay = 1000;
+                  const minDelay = 50;
+                  const totalImages = primaryDwellBoxes.length;
+                  const newDelay = Math.max(minDelay, baseDelay - (shownImageCount / totalImages) * (baseDelay - minDelay));
+                  collapseInterval = setInterval(() => {
+                    if (nextTileToFallIndex < backgroundTiles.length) {
+                      backgroundTiles[nextTileToFallIndex].classList.add('falling');
+                      nextTileToFallIndex++;
+                    } else {
+                      clearInterval(collapseInterval);
+                    }
+                  }, newDelay);
+                  if (shownImageCount >= totalImages) {
+                    fadeOutStarted = true;
+                    setTimeout(() => {
+                      const allTriggerImages = document.querySelectorAll('.trigger-img');
+                      allTriggerImages.forEach(img => {
+                        img.classList.add('fading-out');
+                      });
+                    }, 2000);
+                  }
+                }
+              }
+            } else if (dwellStates[box.id] && !isInDwellBox(x, y, box)) {
+              dwellStates[box.id] = null;
+            }
+          });
+        }
+      }
+
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const dx = x - centerX;
+      const dy = y - centerY;
+      const threshold = 120;
+      const speed = 0.2;
+      if (Math.abs(dx) > threshold || Math.abs(dy) > threshold) {
+        let newScrollX = window.scrollX + dx * speed;
+        let newScrollY = window.scrollY + dy * speed;
+        const maxScrollX = document.documentElement.scrollWidth - window.innerWidth;
+        const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
+        newScrollX = Math.max(0, Math.min(newScrollX, maxScrollX));
+        newScrollY = Math.max(0, Math.min(newScrollY, maxScrollY));
+        window.scrollTo(newScrollX, newScrollY);
+      }
+    }
+
+    function generateBackgroundTiles() {
+      const TILE_SIZE = 250; 
+      const TILE_IMAGE_URL = 'img/background.jpg';
+      const container = document.getElementById('background-container');
+      const containerWidth = 3000;
+      const containerHeight = 3000;
+      container.innerHTML = '';
+      for (let y = 0; y < containerHeight; y += TILE_SIZE) {
+        for (let x = 0; x < containerWidth; x += TILE_SIZE) {
+          const tile = document.createElement('div');
+          tile.classList.add('background-tile');
+          tile.style.width = `${TILE_SIZE}px`;
+          tile.style.height = `${TILE_SIZE}px`;
+          tile.style.left = `${x}px`;
+          tile.style.top = `${y}px`;
+          tile.style.backgroundImage = `url(${TILE_IMAGE_URL})`;
+          tile.style.backgroundPosition = `-${x}px -${y}px`;
+          container.appendChild(tile);
+        }
+      }
+    }
+  </script>
+
+  <script>
+    // 4. 인트로 및 시작 로직
+    document.addEventListener("DOMContentLoaded", function () {
+      generateBackgroundTiles();
+      
+      // 2. 배경 타일 생성 후, 여기서 resizeHeatmap()을 호출합니다.
+      resizeHeatmap(); 
+      
+      const tilesNodeList = document.querySelectorAll('.background-tile');
+      backgroundTiles = Array.from(tilesNodeList);
+      shuffleArray(backgroundTiles);
+
+      const introPage = document.getElementById("intro-page");
+      const skipButton = document.getElementById("skip-intro-button");
+      const calibrationOverlay = document.getElementById("calibrationOverlay");
+      const countdownElement = document.getElementById("countdown");
+      const overlayDisplayDuration = 10;
+      let countdownInterval;
+
+      const introImages = [
+        'img/intro_1.jpg', 'img/intro_2.jpg', 'img/intro_3.jpg', 'img/intro_4.jpg', 'img/intro_5.jpg',
+        'img/intro_6.jpg', 'img/intro_7.jpg', 'img/intro_8.jpg', 'img/intro_9.jpg', 'img/intro_10.jpg'
+      ];
+      let currentImageIndex = 0;
+
+      function startApp() {
+        introPage.style.pointerEvents = 'none';
+        setTimeout(() => {
+            introPage.style.display = "none";
+        }, 600);
+        calibrationOverlay.style.visibility = "visible";
+        let timeLeft = overlayDisplayDuration;
+        countdownElement.textContent = `Calibration will begin in ${timeLeft} seconds`;
+        countdownInterval = setInterval(() => {
+          timeLeft--;
+          if (timeLeft > 0) {
+            countdownElement.textContent = `Calibration will begin in ${timeLeft} seconds`;
+          } else {
+            clearInterval(countdownInterval);
+            countdownElement.textContent = "Calibration starting";
+            setTimeout(() => {
+              startCalibration();
+            }, 100);
+          }
+        }, 1000);
+      }
+
+      function showNextImage() {
+        if (currentImageIndex < introImages.length) {
+          introPage.style.backgroundImage = `url('${introImages[currentImageIndex]}')`;
+          currentImageIndex++;
+        } else {
+          startApp();
+        }
+      }
+
+      introPage.addEventListener("click", showNextImage);
+      skipButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        startApp();
+      });
+      showNextImage();
+
+      const overlay = document.getElementById("calibrationOverlay");
+      if (overlay) {
+        const title = overlay.querySelector("h3");
+        const redInfo = overlay.querySelectorAll("p span")[0];
+        const blueInfo = overlay.querySelectorAll("p span")[1];
+        if (title) title.textContent = "Follow the red circle";
+        if (redInfo) {
+          redInfo.textContent = "All images on this web are from my Browse history";
+          redInfo.style.color = "#2138FF";
+        }
+        if (blueInfo) {
+          blueInfo.textContent = "were exported using Google Takeout.";
+          blueInfo.style.color = "#CCFF00";
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
